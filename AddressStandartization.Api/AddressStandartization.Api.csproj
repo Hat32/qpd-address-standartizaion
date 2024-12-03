@@ -19,6 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\AddressStandartization.Services\AddressStandartization.Services.csproj" />
       <ProjectReference Include="..\AddressStandartization.Settings\AddressStandartization.Settings.csproj" />
     </ItemGroup>
 

@@ -22,8 +22,7 @@ services.AddEndpointsApiExplorer();
 services.AddControllers();
 services.AddProblemDetails();
 
-services.AddCleanClient(builder.Configuration);
-
+services.AddCustomCleanClient(builder.Configuration);
 
 // Configure the HTTP request pipeline
 var app = builder.Build();

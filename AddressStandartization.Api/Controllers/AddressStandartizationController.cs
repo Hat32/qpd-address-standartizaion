@@ -1,4 +1,7 @@
-﻿using AddressStandartization.Api.Models;
+﻿using AddressStandartization.Api.Controllers.Models;
+using AddressStandartization.Api.Models;
+using AddressStandartization.Services.Services.Interfaces;
+using AddressStandartization.Services.Services.Models;
 using AutoMapper;
 using Dadata;
 using Dadata.Model;
@@ -10,24 +13,24 @@ namespace AddressStandartization.Api.Controllers;
 [ApiController]
 public class AddressStandartizationController : ControllerBase
 {
-    private readonly ICleanClientAsync _cleanClientAsync;
+    private readonly ICustomCleanClient _cleanClient;
 
     private readonly IMapper _mapper;
     
     
-    public AddressStandartizationController(ICleanClientAsync cleanClientAsync, IMapper mapper)
+    public AddressStandartizationController(ICustomCleanClient cleanClient, IMapper mapper)
     {
-        _cleanClientAsync = cleanClientAsync;
+        _cleanClient = cleanClient;
         _mapper = mapper;
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetStandartAddress([FromQuery] string rawAddress)
+    public async Task<IActionResult> GetStandartAddress([FromQuery] AddressRequestModel request)
     {
-        var result = await _cleanClientAsync.Clean<Address>(rawAddress);
-       
-        var dto = _mapper.Map<Address, StandartAddressModel>(result);
+        var model = _mapper.Map<AddressModel>(request);
         
-        return Ok(dto);
+        var result = await _cleanClient.CleanAddressAsync(model);
+        
+        return Ok(result);
     }
 }
